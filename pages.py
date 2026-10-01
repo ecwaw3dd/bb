@@ -8,199 +8,241 @@ LOGIN_HTML = r"""<!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>エムエムディー</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23060b16'/><text x='50' y='68' font-size='58' font-family='serif' font-weight='900' fill='%233b82f6' text-anchor='middle'>エ</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Vazirmatn:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Inter:wght@300;400;500;600;700&family=Vazirmatn:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --gold:#3b82f6;--gold2:#60a5fa;
-  --bg:#060b16;
-  --text:rgba(255,255,255,0.94);
-  --text3:rgba(255,255,255,0.42);
-  --border:rgba(96,165,250,0.18);
-  --red:#f87171;
+  --gold:#3b82f6;--gold2:#60a5fa;--gold3:#2563eb;
+  --gold-dim:rgba(59,130,246,0.15);--gold-glow:0 0 28px rgba(59,130,246,0.35);
+  --bg:#060b16;--bg2:#0a1220;--bg3:#111b2e;
+  --surface:rgba(12,22,42,0.65);--surface3:rgba(28,45,75,0.5);
+  --border:rgba(96,165,250,0.18);--border2:rgba(96,165,250,0.35);
+  --text:rgba(255,255,255,0.94);--text2:rgba(147,197,253,0.85);--text3:rgba(255,255,255,0.42);
+  --red:#f87171;--red-dim:rgba(248,113,113,0.12);
 }
-html,body{height:100%;background:var(--bg);font-family:'Vazirmatn','Inter',sans-serif;color:var(--text);overflow:hidden}
-
-/* ── پس‌زمینه ── */
-.bg-glow{position:fixed;inset:0;z-index:0;pointer-events:none;
+html,body{height:100%}
+body{
+  font-family:'Inter','Vazirmatn',sans-serif;
+  color:var(--text);
+  background:var(--bg);
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  padding:20px;
+}
+.bg-fixed{
+  position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
   background:
-    radial-gradient(ellipse 80% 60% at 10% 20%,rgba(37,99,235,0.35),transparent 50%),
-    radial-gradient(ellipse 60% 50% at 90% 10%,rgba(59,130,246,0.25),transparent 45%),
-    radial-gradient(ellipse 70% 55% at 70% 85%,rgba(29,78,216,0.3),transparent 50%),
-    radial-gradient(ellipse 50% 40% at 20% 80%,rgba(96,165,250,0.15),transparent 45%),
-    linear-gradient(160deg,#060b16 0%,#0a1628 40%,#0c1a30 100%);}
-.bg-glow::before{content:"";position:absolute;width:420px;height:420px;border-radius:50%;
-  top:-80px;left:-60px;background:radial-gradient(circle,rgba(59,130,246,0.4),transparent 70%);
-  filter:blur(40px);animation:orbFloat 12s ease-in-out infinite;}
-.bg-glow::after{content:"";position:absolute;width:360px;height:360px;border-radius:50%;
-  bottom:-40px;right:-40px;background:radial-gradient(circle,rgba(37,99,235,0.35),transparent 70%);
-  filter:blur(50px);animation:orbFloat 15s ease-in-out infinite reverse;}
-@keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(30px,20px) scale(1.08)}}
-
-.grid-bg{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.4;
-  background-image:linear-gradient(rgba(96,165,250,0.04) 1px,transparent 1px),
-                   linear-gradient(90deg,rgba(96,165,250,0.04) 1px,transparent 1px);
-  background-size:48px 48px;}
-
-/* ── ستاره‌ها ── */
-.starfield{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-.starfield .s{position:absolute;border-radius:50%;
-  background:radial-gradient(circle,rgba(147,197,253,0.9),rgba(59,130,246,0.3) 40%,transparent 70%);
-  box-shadow:0 0 8px rgba(147,197,253,0.8),0 0 16px rgba(59,130,246,0.5);
-  animation-name:starBlink;animation-timing-function:ease-in-out;animation-iteration-count:infinite}
-@keyframes starBlink{0%,100%{opacity:.15;transform:scale(0.85)}50%{opacity:.9;transform:scale(1.15)}}
-
-/* ── شهاب‌سنگ ── */
-.shooting-stars{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-.shooting-star{position:absolute;width:2px;height:2px;background:#fff;border-radius:50%;
-  box-shadow:0 0 8px 2px rgba(220,240,255,0.9),0 0 16px 4px rgba(147,197,253,0.6);
-  opacity:0;animation-timing-function:ease-in;animation-iteration-count:infinite;animation-fill-mode:both}
-.shooting-star::after{content:"";position:absolute;top:50%;left:100%;width:120px;height:1px;
-  transform:translateY(-50%);
-  background:linear-gradient(90deg,rgba(220,240,255,0.9),rgba(147,197,253,0.4),transparent)}
-@keyframes shoot1{0%{opacity:0;transform:translate(0,0) rotate(-35deg)}5%{opacity:1}60%{opacity:1}100%{opacity:0;transform:translate(-500px,400px) rotate(-35deg)}}
-@keyframes shoot2{0%{opacity:0;transform:translate(0,0) rotate(215deg)}5%{opacity:1}60%{opacity:1}100%{opacity:0;transform:translate(500px,400px) rotate(215deg)}}
-
-/* ── کره‌های نورانی ── */
-.blue-orb{position:fixed;border-radius:50%;pointer-events:none;z-index:0;
-  background:radial-gradient(circle,rgba(59,130,246,0.55),rgba(37,99,235,0.22) 45%,transparent 72%);
-  filter:blur(40px);opacity:0.5}
-.orb-1{width:300px;height:300px;top:-70px;left:-80px;animation:orbFloat1 22s ease-in-out infinite,orbPulse1 8s ease-in-out infinite}
-.orb-2{width:240px;height:240px;top:35%;right:-70px;animation:orbFloat2 26s ease-in-out infinite,orbPulse2 10s ease-in-out infinite}
-.orb-3{width:260px;height:260px;bottom:-80px;left:25%;animation:orbFloat3 24s ease-in-out infinite,orbPulse3 9s ease-in-out infinite}
-.orb-4{width:200px;height:200px;top:15%;left:15%;animation:orbFloat4 28s ease-in-out infinite,orbPulse4 11s ease-in-out infinite}
-@keyframes orbFloat1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(15px,10px) scale(1.03)}}
-@keyframes orbFloat2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-18px,-12px) scale(1.04)}}
-@keyframes orbFloat3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(20px,-15px) scale(1.03)}}
-@keyframes orbFloat4{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-12px,18px) scale(1.05)}}
-@keyframes orbPulse1{0%,100%{opacity:0.45}50%{opacity:0.75}}
-@keyframes orbPulse2{0%,100%{opacity:0.55}50%{opacity:0.30}}
-@keyframes orbPulse3{0%,100%{opacity:0.40}50%{opacity:0.70}}
-@keyframes orbPulse4{0%,100%{opacity:0.50}50%{opacity:0.25}}
-
-/* ── کارت لاگین ── */
-.login-wrap{display:flex;align-items:center;justify-content:center;min-height:100vh;width:100%;position:relative;z-index:1;padding:20px}
-.login-box{background:linear-gradient(90deg,rgba(8,32,62,0.85),rgba(14,28,38,0.85));
-  border:1px solid rgba(255,255,255,0.15);border-radius:20px;
-  padding:36px 32px;width:100%;max-width:360px;
-  box-shadow:0 20px 60px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.12);
-  backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%)}
-.login-title{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);letter-spacing:.1em;text-align:center}
-.login-sub{font-size:11px;color:var(--text3);margin-top:6px;text-align:center;margin-bottom:24px}
-
-.fg{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
-.fl{font-size:10px;font-weight:700;color:var(--gold2);text-transform:uppercase;letter-spacing:.08em}
-.fi{width:100%;padding:12px 16px;border-radius:10px;border:1px solid rgba(96,165,250,0.18);
-  background:rgba(12,22,42,0.65);color:var(--text);font-family:inherit;font-size:14px;outline:none;transition:all .2s}
-.fi::placeholder{color:rgba(255,255,255,0.3)}
-.fi:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(59,130,246,0.15)}
-
-.btn-login{width:100%;padding:12px 16px;border-radius:10px;border:none;
-  background:linear-gradient(135deg,#3b82f6,#60a5fa);color:#fff;
-  font-family:inherit;font-size:14px;font-weight:700;letter-spacing:.05em;
-  cursor:pointer;transition:all .2s;box-shadow:0 0 16px rgba(59,130,246,0.25);
-  display:flex;align-items:center;justify-content:center;gap:8px}
-.btn-login:hover:not(:disabled){filter:brightness(1.1);transform:translateY(-1px);box-shadow:0 0 24px rgba(59,130,246,0.4)}
-.btn-login:disabled{opacity:.6;cursor:not-allowed}
-
-.err{display:none;background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.25);
-  border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:12px;color:var(--red);text-align:center}
-.err.show{display:block}
-
-@keyframes spin{to{transform:rotate(360deg)}}
-.spin{animation:spin 1s linear infinite;display:inline-block}
-
-@media (prefers-reduced-motion: reduce){
-  .bg-glow::before,.bg-glow::after,.starfield .s,.shooting-star,.blue-orb{animation:none}
+    radial-gradient(ellipse 80% 55% at 5% 15%,rgba(37,99,235,0.4),transparent 50%),
+    radial-gradient(ellipse 55% 45% at 95% 5%,rgba(59,130,246,0.28),transparent 45%),
+    radial-gradient(ellipse 65% 50% at 75% 90%,rgba(29,78,216,0.32),transparent 50%),
+    radial-gradient(ellipse 45% 35% at 15% 85%,rgba(96,165,250,0.18),transparent 45%),
+    linear-gradient(165deg,#060b16 0%,#0a1628 45%,#0c1a30 100%);
 }
-
-@media(max-width:480px){
-  .login-box{padding:30px 22px;max-width:340px}
-  .login-title{font-size:20px}
+.bg-fixed::before{
+  content:"";position:absolute;width:480px;height:480px;border-radius:50%;
+  top:-100px;left:-80px;
+  background:radial-gradient(circle,rgba(59,130,246,0.45),transparent 68%);
+  filter:blur(50px);
+  animation:orbFloat 14s ease-in-out infinite;
+}
+.bg-fixed::after{
+  content:"";position:absolute;width:400px;height:400px;border-radius:50%;
+  bottom:-60px;right:-50px;
+  background:radial-gradient(circle,rgba(37,99,235,0.38),transparent 68%);
+  filter:blur(55px);
+  animation:orbFloat 18s ease-in-out infinite reverse;
+}
+@keyframes orbFloat{
+  0%,100%{transform:translate(0,0) scale(1)}
+  50%{transform:translate(40px,25px) scale(1.1)}
+}
+.grid-fixed{
+  position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.35;
+  background-image:
+    linear-gradient(rgba(96,165,250,0.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(96,165,250,0.05) 1px,transparent 1px);
+  background-size:56px 56px;
+}
+.login-stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.login-stars .ls{
+  position:absolute;border-radius:50%;background:#fff;
+  box-shadow:0 0 6px rgba(147,197,253,0.9),0 0 12px rgba(59,130,246,0.6);
+  animation:starBlink 2.5s ease-in-out infinite;
+}
+@keyframes starBlink{
+  0%,100%{opacity:0.15;transform:scale(0.85)}
+  50%{opacity:1;transform:scale(1.15)}
+}
+.login-wrap{
+  display:flex;align-items:center;justify-content:center;
+  min-height:100vh;width:100%;position:relative;z-index:1;
+}
+.login-box{
+  background:linear-gradient(90deg,rgba(8,32,62,0.85),rgba(14,28,38,0.85));
+  border:1px solid rgba(255,255,255,0.15);
+  border-radius:20px;
+  padding:36px 32px;
+  width:100%;
+  max-width:360px;
+  box-shadow:0 20px 60px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.12);
+  backdrop-filter:blur(20px) saturate(180%);
+  -webkit-backdrop-filter:blur(20px) saturate(180%);
+}
+.login-title{
+  font-family:'Cinzel',serif;
+  font-size:22px;
+  font-weight:900;
+  color:var(--gold);
+  letter-spacing:.1em;
+  text-align:center;
+}
+.login-sub{
+  font-size:11px;
+  color:var(--text3);
+  margin-top:6px;
+  text-align:center;
+}
+.fg{display:flex;flex-direction:column;gap:4px;margin-top:20px;margin-bottom:11px}
+.fl{
+  font-size:9.5px;font-weight:700;
+  color:var(--text2);
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+.fi{
+  padding:8px 12px;
+  border-radius:8px;
+  border:1px solid var(--border);
+  font-family:inherit;
+  font-size:12.5px;
+  outline:none;
+  color:var(--text);
+  background:var(--surface);
+  transition:all .2s;
+  width:100%;
+}
+.fi::placeholder{color:var(--text3);letter-spacing:.15em}
+.fi:focus{
+  border-color:var(--gold);
+  box-shadow:0 0 0 3px rgba(59,130,246,.08);
+}
+.btn{
+  font-family:inherit;
+  font-size:12px;
+  font-weight:700;
+  border-radius:8px;
+  padding:11px 14px;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+  border:none;
+  transition:all .2s;
+  letter-spacing:.03em;
+  width:100%;
+}
+.btn-gold{
+  background:linear-gradient(135deg,#3b82f6,#60a5fa);
+  color:#fff;
+  box-shadow:0 0 16px rgba(59,130,246,.25);
+}
+.btn-gold:hover{filter:brightness(1.1);transform:translateY(-1px);box-shadow:0 0 24px rgba(59,130,246,.4)}
+.btn-gold:disabled{opacity:.6;cursor:not-allowed;transform:none}
+#login-err{
+  color:var(--red);
+  font-size:12px;
+  margin-top:10px;
+  text-align:center;
+  display:none;
+  background:var(--red-dim);
+  padding:8px 10px;
+  border-radius:6px;
+  border:1px solid rgba(248,113,113,0.2);
+}
+#login-err.show{display:block}
+@media(max-width:460px){
+  .login-box{padding:30px 24px;border-radius:16px}
+  .login-title{font-size:19px}
 }
 </style>
 </head>
 <body>
-
-<div class="bg-glow"></div>
-<div class="grid-bg"></div>
-<div class="starfield" id="starfield"></div>
-<div class="shooting-stars" id="shooting-stars"></div>
-<div class="blue-orb orb-1"></div>
-<div class="blue-orb orb-2"></div>
-<div class="blue-orb orb-3"></div>
-<div class="blue-orb orb-4"></div>
+<div class="bg-fixed"></div>
+<div class="grid-fixed"></div>
+<div class="login-stars" id="login-stars"></div>
 
 <div class="login-wrap">
   <div class="login-box">
     <div class="login-title">エムエムディー</div>
     <div class="login-sub">Enter your password to continue</div>
-    <div class="err" id="err"></div>
-    <form id="login-form">
-      <div class="fg">
-        <label class="fl">Password</label>
-        <input class="fi" type="password" id="pw" placeholder="••••••••" autofocus required>
-      </div>
-      <button class="btn-login" type="submit" id="login-btn">LOGIN</button>
-    </form>
+
+    <div class="fg">
+      <label class="fl">PASSWORD</label>
+      <input class="fi" type="password" id="login-pw" placeholder="••••••••"
+        onkeydown="if(event.key==='Enter')doLogin()" autofocus>
+    </div>
+
+    <button class="btn btn-gold" onclick="doLogin()" id="login-btn">LOGIN</button>
+    <div id="login-err">Invalid password</div>
   </div>
 </div>
 
 <script>
-// ── ستاره‌ها ──
-(function(){
-  var sf=document.getElementById('starfield');
-  var n=window.innerWidth<600?40:60;
-  var h='';
-  for(var i=0;i<n;i++){
-    var sz=(Math.random()*3+1.5).toFixed(1);
-    h+='<span class="s" style="width:'+sz+'px;height:'+sz+'px;top:'+(Math.random()*100).toFixed(2)+'%;left:'+(Math.random()*100).toFixed(2)+'%;animation-duration:'+(Math.random()*3+2).toFixed(2)+'s;animation-delay:'+(Math.random()*4).toFixed(2)+'s"></span>';
+(function generateStars(){
+  const c = document.getElementById('login-stars');
+  if(!c) return;
+  const N = 40;
+  let html = '';
+  for(let i = 0; i < N; i++){
+    const size = (Math.random() * 2 + 1).toFixed(1);
+    const top  = (Math.random() * 100).toFixed(2);
+    const left = (Math.random() * 100).toFixed(2);
+    const dur  = (Math.random() * 3 + 2).toFixed(2);
+    const dly  = (Math.random() * 4).toFixed(2);
+    html += `<span class="ls" style="width:${size}px;height:${size}px;top:${top}%;left:${left}%;animation-duration:${dur}s;animation-delay:${dly}s"></span>`;
   }
-  sf.innerHTML=h;
+  c.innerHTML = html;
 })();
 
-// ── شهاب‌سنگ ──
-(function(){
-  var ss=document.getElementById('shooting-stars');
-  var h='';
-  h+='<span class="shooting-star" style="top:5%;left:70%;animation-name:shoot1;animation-duration:10s;animation-delay:2s"></span>';
-  h+='<span class="shooting-star" style="top:10%;left:20%;animation-name:shoot2;animation-duration:10s;animation-delay:7s"></span>';
-  ss.innerHTML=h;
-})();
+async function doLogin(){
+  const btn = document.getElementById('login-btn');
+  const err = document.getElementById('login-err');
+  const pw  = document.getElementById('login-pw').value;
 
-// ── لاگین ──
-document.getElementById('login-form').addEventListener('submit',async function(e){
-  e.preventDefault();
-  var btn=document.getElementById('login-btn');
-  var err=document.getElementById('err');
-  var pw=document.getElementById('pw').value;
   err.classList.remove('show');
-  btn.disabled=true;
-  btn.innerHTML='<span class="spin">⟳</span> Signing in...';
+  err.textContent = 'Invalid password';
+  btn.disabled = true;
+  btn.textContent = 'LOGGING IN...';
+
   try{
-    var r=await fetch('/api/login',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({password:pw})
+    const r = await fetch('/api/login', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({password: pw})
     });
     if(!r.ok){
-      var d=await r.json().catch(function(){return{}});
-      throw new Error(d.detail||'Invalid password');
+      err.textContent = 'Invalid password';
+      err.classList.add('show');
+      btn.disabled = false;
+      btn.textContent = 'LOGIN';
+      return;
     }
-    window.location.href='/dashboard';
-  }catch(ex){
-    err.textContent=ex.message;
+    window.location.href = '/dashboard';
+  }catch(e){
+    err.textContent = 'Connection error';
     err.classList.add('show');
-    btn.disabled=false;
-    btn.textContent='LOGIN';
+    btn.disabled = false;
+    btn.textContent = 'LOGIN';
   }
-});
+}
 </script>
-
 </body>
 </html>"""
 
