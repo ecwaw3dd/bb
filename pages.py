@@ -1095,7 +1095,7 @@ a{color:inherit;text-decoration:none}
   <span>خروج</span>
 </button>
 <main class="main">
-<section class="pg on" id="pg-overview">
+<section class="pg on" id="pg-overview" style="display:none !important">
   <div class="topbar">
     <div><div class="tb-title"><i class="ti ti-layout-dashboard"></i> داشبورد</div><div class="tb-sub" id="last-upd">در حال بارگذاری...</div></div>
     <div class="tb-right">
