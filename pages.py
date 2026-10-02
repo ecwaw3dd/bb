@@ -296,7 +296,7 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
   --amber:#F59E0B;--amber-bg:rgba(245,158,11,0.1);--amber-t:#FCD34D;
   --purple:#8B5CF6;--purple-bg:rgba(139,92,246,0.1);
   --t1:#E8F4FF;--t2:#7BAED4;--t3:#3D6B8E;
-  --sidebar-w:248px;--radius:16px;
+  --sidebar-w:82px;--radius:16px;
   --shadow:0 4px 24px rgba(0,0,0,0.35);
 }
 
@@ -386,12 +386,12 @@ body{font-family:'Vazirmatn',sans-serif;background:var(--bg);color:var(--t1);min
 ::-webkit-scrollbar-track{background:var(--bg)}
 ::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:3px}
 a{color:inherit;text-decoration:none}
-.sidebar{width:var(--sidebar-w);min-height:100vh;background:var(--bg2);border-left:1px solid var(--card-b);display:flex;flex-direction:column;flex-shrink:0;position:fixed;right:0;top:0;bottom:0;z-index:200;transition:transform .25s cubic-bezier(.4,0,.2,1),background .3s,border-color .3s}
-.logo{display:flex;align-items:center;gap:12px;padding:20px 16px 16px;border-bottom:1px solid var(--card-b)}
-.logo-img{width:38px;height:38px;border-radius:50%;overflow:hidden;border:1px solid var(--card-b);box-shadow:0 0 14px rgba(139,92,246,.3),0 0 8px rgba(59,130,246,.25);flex-shrink:0}
+.sidebar{width:82px;height:auto;max-height:calc(100vh - 106px);top:90px;bottom:20px;right:10px;background:rgba(10,18,35,0.55);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(96,165,250,0.15);border-radius:22px;box-shadow:0 8px 32px rgba(0,0,0,0.35);display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;z-index:200;transition:all .3s cubic-bezier(.4,0,.2,1)}
+.logo{display:flex;flex-direction:column;align-items:center;gap:2px;padding:14px 0;border-bottom:1px solid var(--card-b);flex-shrink:0}
+.logo-img{width:36px;height:36px;border-radius:50%;overflow:hidden;border:1px solid var(--card-b);box-shadow:0 0 14px rgba(59,130,246,.35);flex-shrink:0}
 .logo-img img{width:100%;height:100%;object-fit:cover}
-.logo-name{font-size:13.5px;font-weight:700;color:var(--t1)}
-.logo-sub{font-size:10px;color:var(--t3);margin-top:1px}
+.logo-name{font-family:'Cinzel',serif;font-size:8px;font-weight:700;color:rgba(59,130,246,.9);letter-spacing:.12em;text-transform:uppercase;text-align:center;line-height:1.2;margin-top:4px}
+.logo-sub{font-size:7px;color:var(--t3);letter-spacing:.05em;text-align:center}
 .sb-close{display:none;position:absolute;left:12px;top:20px;background:var(--accent-d);border:1px solid var(--card-b);color:var(--t2);width:30px;height:30px;border-radius:8px;font-size:16px;align-items:center;justify-content:center;cursor:pointer}
 .nav-wrap{flex:1;overflow-y:auto;padding:6px 0 8px}
 .nav-sec{padding:14px 14px 4px;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--t3);font-weight:700}
