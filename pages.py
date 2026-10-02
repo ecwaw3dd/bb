@@ -2582,5 +2582,6 @@ init();
   }
   c.innerHTML = html;
 })();
+
 </script>
 </body></html>"""
