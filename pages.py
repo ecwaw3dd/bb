@@ -2565,21 +2565,5 @@ async function init(){{
 }}
 
 init();
-
-(function(){
-  var c = document.getElementById('panel-stars');
-  if (!c) return;
-  var N = 35;
-  var html = '';
-  for (var i = 0; i < N; i++) {
-    var size = (Math.random() * 2 + 1).toFixed(1);
-    var top = (Math.random() * 100).toFixed(2);
-    var left = (Math.random() * 100).toFixed(2);
-    var dur = (Math.random() * 3 + 2.5).toFixed(2);
-    var delay = (Math.random() * 5).toFixed(2);
-    html += '<span class="ps" style="width:' + size + 'px;height:' + size + 'px;top:' + top + '%;left:' + left + '%;animation-duration:' + dur + 's;animation-delay:' + delay + 's"></span>';
-  }
-  c.innerHTML = html;
-})();
 </script>
 </body></html>"""
