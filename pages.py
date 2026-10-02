@@ -1064,10 +1064,6 @@ a{color:inherit;text-decoration:none}
 <div class="overlay" id="overlay"></div>
 <aside class="sidebar" id="sb">
   <button class="sb-close" id="close-sb"><i class="ti ti-x"></i></button>
-  <div class="logo">
-    <div class="logo-img"><img src="data:image/png;base64,__LOGO_B64__" alt="Gateway"></div>
-    <div><div class="logo-name">Gateway</div><div class="logo-sub">v11</div></div>
-  </div>
   <div class="nav-wrap">
     <div class="nav-sec">پنل</div>
     <div class="nav-it on" data-pg="overview"><i class="ti ti-layout-dashboard"></i> داشبورد</div>
