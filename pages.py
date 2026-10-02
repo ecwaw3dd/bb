@@ -296,7 +296,7 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
   --amber:#F59E0B;--amber-bg:rgba(245,158,11,0.1);--amber-t:#FCD34D;
   --purple:#8B5CF6;--purple-bg:rgba(139,92,246,0.1);
   --t1:#E8F4FF;--t2:#7BAED4;--t3:#3D6B8E;
-  --sidebar-w:82px;--radius:16px;
+  --sidebar-w:70px;--radius:16px;
   --shadow:0 4px 24px rgba(0,0,0,0.35);
 }
 
@@ -395,8 +395,9 @@ a{color:inherit;text-decoration:none}
 .sb-close{display:none;position:absolute;left:12px;top:20px;background:var(--accent-d);border:1px solid var(--card-b);color:var(--t2);width:30px;height:30px;border-radius:8px;font-size:16px;align-items:center;justify-content:center;cursor:pointer}
 .nav-wrap{flex:1;overflow-y:auto;padding:10px 8px;display:flex;flex-direction:column;gap:3px;justify-content:center}
 .nav-sec{padding:8px 4px 4px;font-size:7px;letter-spacing:.14em;text-transform:uppercase;color:var(--t3);font-weight:700;text-align:center}
-.nav-it{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:10px 4px;color:var(--t3);font-size:8px;cursor:pointer;border-radius:12px;border:1px solid transparent;transition:all .2s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden;background:none;width:100%;font-family:inherit;text-align:center;line-height:1.2}
-.nav-it i{font-size:17px;width:auto;text-align:center;flex-shrink:0;transition:transform .2s;position:relative;z-index:1}
+.nav-it{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:10px 2px;color:var(--t3);font-size:8.5px;cursor:pointer;border-radius:12px;border:1px solid transparent;transition:all .2s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden;background:none;width:100%;font-family:inherit;text-align:center;line-height:1.1;font-weight:600}
+.nav-it i{font-size:18px;width:auto;text-align:center;flex-shrink:0;transition:transform .2s;position:relative;z-index:1;line-height:1}
+.nav-it span:not(.nav-badge){font-size:8px;font-weight:600;letter-spacing:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;position:relative;z-index:1;text-align:center;line-height:1;margin-top:1px}
 .nav-it:hover{background:rgba(59,130,246,0.1);color:var(--accent2);border-color:rgba(59,130,246,0.15)}
 .nav-it:hover i,.nav-it.on i{transform:scale(1.1)}
 .nav-it.on{background:linear-gradient(135deg,rgba(59,130,246,0.45),rgba(37,99,235,0.35));color:#fff;border-color:rgba(59,130,246,0.4);box-shadow:0 0 20px rgba(59,130,246,.25),inset 0 1px 0 rgba(255,255,255,.1)}
@@ -418,6 +419,10 @@ a{color:inherit;text-decoration:none}
 .logout-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;background:rgba(248,113,113,0.08);color:rgba(248,113,113,0.85);border-radius:12px;padding:8px 4px;font-size:8px;font-weight:700;font-family:inherit;border:1px solid rgba(248,113,113,0.2);cursor:pointer;width:100%;transition:.18s}
 .logout-btn i{font-size:15px}
 .logout-btn:hover{background:rgba(248,113,113,0.18);border-color:rgba(248,113,113,0.5);color:#f87171}
+.logout-float{position:fixed;right:14px;bottom:14px;display:flex;align-items:center;justify-content:center;gap:7px;background:rgba(248,113,113,0.12);color:rgba(248,113,113,0.9);border-radius:14px;padding:10px 16px;font-size:12px;font-weight:700;font-family:inherit;border:1px solid rgba(248,113,113,0.3);cursor:pointer;transition:.2s;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 4px 20px rgba(248,113,113,0.15);z-index:250}
+.logout-float i{font-size:15px}
+.logout-float:hover{background:rgba(248,113,113,0.22);border-color:rgba(248,113,113,0.6);box-shadow:0 6px 24px rgba(248,113,113,0.3);transform:translateY(-2px)}
+.logout-float:active{transform:translateY(0)}
 .mob-top{display:none;position:fixed;top:0;right:0;left:0;height:52px;background:var(--bg2);border-bottom:1px solid var(--card-b);z-index:150;align-items:center;justify-content:space-between;padding:0 14px;transition:background .3s}
 .mob-top .ml{display:flex;align-items:center;gap:9px}
 .mob-logo{width:28px;height:28px;border-radius:50%;overflow:hidden;box-shadow:0 0 8px rgba(139,92,246,.35)}
@@ -1065,27 +1070,27 @@ a{color:inherit;text-decoration:none}
 <aside class="sidebar" id="sb">
   <button class="sb-close" id="close-sb"><i class="ti ti-x"></i></button>
   <div class="nav-wrap">
-    <div class="nav-sec">پنل</div>
-    <div class="nav-it on" data-pg="overview"><i class="ti ti-layout-dashboard"></i> داشبورد</div>
-    <div class="nav-it" data-pg="links"><i class="ti ti-link-plus"></i> کانفیگ‌ها <span class="nav-badge" id="links-nb">0</span></div>
-    <div class="nav-it" data-pg="subgroups"><i class="ti ti-folders"></i> گروه‌های ساب <span class="nav-badge" id="subs-nb">0</span></div>
-    <div class="nav-it" data-pg="subscriptions"><i class="ti ti-rss"></i> سابسکریپشن</div>
-    <div class="nav-it" data-pg="traffic"><i class="ti ti-chart-area"></i> ترافیک</div>
-    <div class="nav-it" data-pg="connections"><i class="ti ti-plug-connected"></i> اتصالات <span class="nav-badge" id="conns-nb">0</span></div>
-    <div class="nav-sec">سیستم</div>
-    <div class="nav-it" data-pg="security"><i class="ti ti-shield-lock"></i> امنیت</div>
-    <div class="nav-it" data-pg="logs"><i class="ti ti-history"></i> لاگ فعالیت‌ها</div>
-    <div class="nav-it" data-pg="errors"><i class="ti ti-alert-triangle"></i> خطاها</div>
-    <div class="nav-it" data-pg="testws"><i class="ti ti-wifi"></i> تست WebSocket</div>
-    <div class="nav-it" data-pg="settings"><i class="ti ti-settings"></i> تنظیمات</div>
-    <div class="nav-it" data-pg="support"><i class="ti ti-headset"></i> پشتیبانی</div>
-  </div>
-  <div class="sb-foot">
-    <button class="theme-btn" onclick="toggleTheme()"><i class="ti ti-moon" id="theme-icon"></i> <span id="theme-label">تم روشن</span></button>
-    
-    <button class="logout-btn" id="logout-btn"><i class="ti ti-logout"></i> خروج</button>
+    <div class="nav-it on" data-pg="overview"><i class="ti ti-layout-dashboard"></i><span>داشبورد</span></div>
+    <div class="nav-it" data-pg="links"><i class="ti ti-users"></i><span>اینباندها</span><span class="nav-badge" id="links-nb">0</span></div>
+    <div class="nav-it" data-pg="traffic"><i class="ti ti-activity"></i><span>ترافیک</span></div>
+    <div class="nav-it" data-pg="cleanip"><i class="ti ti-world"></i><span>آی‌پی تمیز</span></div>
+    <div class="nav-it" data-pg="nodes"><i class="ti ti-server-2"></i><span>نودها</span></div>
+    <div class="nav-it" data-pg="security"><i class="ti ti-shield-lock"></i><span>امنیت</span></div>
+    <div class="nav-it" data-pg="settings"><i class="ti ti-settings"></i><span>تنظیمات</span></div>
+    <div class="nav-it" data-pg="subgroups"><i class="ti ti-folders"></i><span>گروه‌های ساب</span></div>
+    <div class="nav-it" data-pg="subscriptions"><i class="ti ti-rss"></i><span>سابسکریپشن</span></div>
+    <div class="nav-it" data-pg="connections"><i class="ti ti-plug-connected"></i><span>اتصالات</span><span class="nav-badge" id="conns-nb">0</span></div>
+    <div class="nav-it" data-pg="logs"><i class="ti ti-history"></i><span>لاگ</span></div>
+    <div class="nav-it" data-pg="errors"><i class="ti ti-alert-triangle"></i><span>خطاها</span></div>
+    <div class="nav-it" data-pg="testws"><i class="ti ti-wifi"></i><span>تست WS</span></div>
+    <div class="nav-it" data-pg="support"><i class="ti ti-headset"></i><span>پشتیبانی</span></div>
   </div>
 </aside>
+
+<button class="logout-float" id="logout-btn" onclick="logout()">
+  <i class="ti ti-logout"></i>
+  <span>خروج</span>
+</button>
 <main class="main">
 <section class="pg on" id="pg-overview">
   <div class="topbar">
