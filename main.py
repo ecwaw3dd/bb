@@ -62,8 +62,19 @@ CONFIG = {
     "port": int(os.environ.get("PORT", 8000)),
     "secret": _load_or_create_secret(),
     "host": os.environ.get("RAILWAY_PUBLIC_DOMAIN", "localhost"),
+    # ═══════ Node API settings ═══════
+    "panel_role": os.environ.get("PANEL_ROLE", "master"),
+    "panel_name": os.environ.get("PANEL_NAME", "Gateway-Node"),
+    "panel_flag": os.environ.get("PANEL_FLAG", "🇳🇱"),
+    "my_api_token": os.environ.get("MY_API_TOKEN", ""),
+    "master_url": os.environ.get("MASTER_URL", ""),
+    "master_token": os.environ.get("MASTER_TOKEN", ""),
 }
 
+# اگه توکن نبود، یه توکن امن می‌سازیم
+if not CONFIG["my_api_token"]:
+    CONFIG["my_api_token"] = "nd_" + secrets.token_urlsafe(32)
+    logger.info(f"[NODE] Auto-generated API token: {CONFIG['my_api_token']}")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -1146,6 +1157,228 @@ async def dashboard(request: Request):
 @app.get("/test-ws", response_class=HTMLResponse)
 async def test_ws_redirect():
     return HTMLResponse(content="<script>location.href='/dashboard'</script>")
+    
+# ═══════════════════════════════════════════════════════════════════════
+# 🌐 NODE API — دریافت کانفیگ‌ها از Master
+# ═══════════════════════════════════════════════════════════════════════
+
+def _client_ip(request: Request) -> str:
+    """آی‌پی کلاینت رو با احتساب هدرهای پراکسی برمی‌گردونه."""
+    fwd = request.headers.get("x-forwarded-for")
+    if fwd:
+        return fwd.split(",")[0].strip()
+    real_ip = request.headers.get("x-real-ip")
+    if real_ip:
+        return real_ip.strip()
+    return request.client.host if request.client else "unknown"
+
+
+def _is_link_allowed(link: dict | None) -> bool:
+    """چک می‌کنه کاربر فعاله یا نه."""
+    if link is None:
+        return False
+    if not link.get("active", True):
+        return False
+    exp = link.get("expires_at")
+    if exp:
+        try:
+            if datetime.now() > datetime.fromisoformat(exp):
+                return False
+        except Exception:
+            pass
+    lb = link.get("limit_bytes", 0)
+    if lb > 0 and link.get("used_bytes", 0) >= lb:
+        return False
+    return True
+
+
+def generate_node_token() -> str:
+    """توکن امن برای احراز هویت بین Master و Node تولید می‌کنه."""
+    return "nd_" + secrets.token_urlsafe(32)
+
+
+@app.get("/api/node/handshake")
+async def node_handshake(request: Request):
+    """تست اتصال از Master.
+    
+    Master با فرستادن توکن درخواست می‌ده و این پاسخ می‌ده.
+    """
+    token = request.headers.get("X-Node-Token", "")
+    my_token = CONFIG.get("my_api_token", "")
+    
+    if not my_token:
+        raise HTTPException(status_code=500, detail="This panel has no API token set")
+    if token != my_token:
+        logger.warning(f"[NODE] Handshake failed: invalid token from {_client_ip(request)}")
+        raise HTTPException(status_code=401, detail="Invalid token")
+    
+    async with LINKS_LOCK:
+        links_count = len(LINKS)
+    
+    return {
+        "status": "ok",
+        "panel_name": CONFIG.get("panel_name", "Gateway-Node"),
+        "panel_flag": CONFIG.get("panel_flag", "🇳🇱"),
+        "panel_role": CONFIG.get("panel_role", "node"),
+        "stats": {
+            "users_count": links_count,
+            "active_connections": len(connections),
+            "total_traffic_mb": round(stats["total_bytes"] / (1024 * 1024), 2),
+            "uptime": uptime(),
+        }
+    }
+
+
+@app.post("/api/node/receive-user")
+async def node_receive_user(request: Request):
+    """دریافت کاربر از Master."""
+    token = request.headers.get("X-Node-Token", "")
+    my_token = CONFIG.get("my_api_token", "")
+    if not my_token or token != my_token:
+        logger.warning(f"[NODE] receive-user: invalid token from {_client_ip(request)}")
+        raise HTTPException(status_code=401, detail="Invalid token")
+    
+    body = await request.json()
+    uid = body.get("uuid")
+    label = body.get("label")
+    
+    if not uid or not label:
+        raise HTTPException(status_code=400, detail="uuid and label are required")
+    
+    import re as _re
+    clean_label = _re.sub(r'^[\U0001F1E6-\U0001F1FF]{2}\s+', '', label).strip()
+    my_flag = CONFIG.get("panel_flag", "🇳🇱")
+    final_label = f"{my_flag} {clean_label}"
+    
+    limit_bytes = int(body.get("limit_bytes") or 0)
+    expires_at = body.get("expires_at")
+    active = bool(body.get("active", True))
+    protocol = body.get("protocol", DEFAULT_PROTOCOL)
+    fingerprint = body.get("fingerprint", DEFAULT_FINGERPRINT)
+    alpn = body.get("alpn", "")
+    port = int(body.get("port") or DEFAULT_PORT)
+    ip_limit = int(body.get("ip_limit") or 0)
+    speed_limit_bytes = int(body.get("speed_limit_bytes") or 0)
+    
+    async with LINKS_LOCK:
+        is_update = uid in LINKS
+        if is_update:
+            LINKS[uid]["label"] = final_label
+            LINKS[uid]["limit_bytes"] = limit_bytes
+            LINKS[uid]["expires_at"] = expires_at
+            LINKS[uid]["active"] = active
+            LINKS[uid]["protocol"] = protocol
+            LINKS[uid]["fingerprint"] = fingerprint
+            LINKS[uid]["alpn"] = alpn
+            LINKS[uid]["port"] = port
+            LINKS[uid]["ip_limit"] = ip_limit
+            LINKS[uid]["speed_limit_bytes"] = speed_limit_bytes
+            logger.info(f"[NODE] Updated user '{label}' ({uid[:8]})")
+        else:
+            LINKS[uid] = {
+                "label": final_label,
+                "limit_bytes": limit_bytes,
+                "used_bytes": 0,
+                "created_at": datetime.now().isoformat(),
+                "active": active,
+                "expires_at": expires_at,
+                "note": body.get("note", ""),
+                "is_default": False,
+                "sub_id": None,
+                "protocol": protocol,
+                "fingerprint": fingerprint,
+                "alpn": alpn,
+                "port": port,
+                "ip_limit": ip_limit,
+                "speed_limit_bytes": speed_limit_bytes,
+            }
+            logger.info(f"[NODE] Received new user '{label}' ({uid[:8]}) from master")
+    
+    asyncio.create_task(save_state())
+    return {"status": "ok", "uuid": uid, "action": "updated" if is_update else "created"}
+
+
+@app.post("/api/node/delete-user")
+async def node_delete_user(request: Request):
+    """حذف کاربر از این Node (از طرف Master)."""
+    token = request.headers.get("X-Node-Token", "")
+    my_token = CONFIG.get("my_api_token", "")
+    if not my_token or token != my_token:
+        raise HTTPException(status_code=401, detail="Invalid token")
+    
+    body = await request.json()
+    uid = body.get("uuid")
+    if not uid:
+        raise HTTPException(status_code=400, detail="uuid is required")
+    
+    async with LINKS_LOCK:
+        LINKS.pop(uid, None)
+    asyncio.create_task(save_state())
+    
+    logger.info(f"[NODE] Deleted user {uid[:8]} by master request")
+    return {"status": "ok", "uuid": uid}
+
+
+@app.get("/api/node/get-config")
+async def node_get_config(request: Request, uuid: str):
+    """کانفیگ کاربر رو برای Master می‌سازه."""
+    token = request.headers.get("X-Node-Token", "")
+    my_token = CONFIG.get("my_api_token", "")
+    if not my_token or token != my_token:
+        raise HTTPException(status_code=401, detail="Invalid token")
+    
+    async with LINKS_LOCK:
+        link = LINKS.get(uuid)
+        if link is None:
+            raise HTTPException(status_code=404, detail="User not found")
+        link = dict(link)
+    
+    if not _is_link_allowed(link):
+        raise HTTPException(status_code=403, detail="User inactive or expired")
+    
+    host = get_host(request)
+    config = vless_link_for_link(link, uuid, host)
+    
+    return {"status": "ok", "config": config}
+
+
+@app.get("/api/panel/info")
+async def panel_info(_=Depends(require_auth)):
+    """اطلاعات این پنل برای نمایش در UI."""
+    return {
+        "panel_role": CONFIG.get("panel_role", "master"),
+        "panel_name": CONFIG.get("panel_name", "Gateway"),
+        "panel_flag": CONFIG.get("panel_flag", "🇳🇱"),
+        "my_api_token": CONFIG.get("my_api_token", ""),
+        "master_url": CONFIG.get("master_url", ""),
+        "master_token": CONFIG.get("master_token", ""),
+    }
+
+
+@app.post("/api/panel/info")
+async def update_panel_info(request: Request, _=Depends(require_auth)):
+    """آپدیت اطلاعات نقش پنل."""
+    body = await request.json()
+    
+    if "panel_role" in body:
+        role = str(body["panel_role"]).strip().lower()
+        if role in ("master", "node", "slave"):
+            CONFIG["panel_role"] = "node" if role == "slave" else role
+    
+    if "panel_name" in body:
+        CONFIG["panel_name"] = str(body["panel_name"]).strip()[:50]
+    
+    if "panel_flag" in body:
+        CONFIG["panel_flag"] = str(body["panel_flag"]).strip()[:10]
+    
+    if "master_url" in body:
+        CONFIG["master_url"] = str(body["master_url"]).strip()
+    
+    if "master_token" in body:
+        CONFIG["master_token"] = str(body["master_token"]).strip()
+    
+    logger.info(f"[PANEL] Info updated: role={CONFIG['panel_role']}, name={CONFIG['panel_name']}")
+    return {"status": "ok", **{k: CONFIG[k] for k in ("panel_role", "panel_name", "panel_flag", "my_api_token", "master_url", "master_token")}}
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=CONFIG["port"], log_level="info", workers=1)
