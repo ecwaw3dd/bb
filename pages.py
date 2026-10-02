@@ -386,7 +386,7 @@ body{font-family:'Vazirmatn',sans-serif;background:var(--bg);color:var(--t1);min
 ::-webkit-scrollbar-track{background:var(--bg)}
 ::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:3px}
 a{color:inherit;text-decoration:none}
-.sidebar{width:70px;height:auto;max-height:calc(100vh - 200px);top:300px;right:14px;background:red;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(96,165,250,0.15);border-radius:22px;box-shadow:0 8px 32px rgba(0,0,0,0.35);display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;z-index:200;transition:all .3s cubic-bezier(.4,0,.2,1)}
+.sidebar{width:70px;height:auto;max-height:calc(100vh - 200px);top:300px !important;right:14px;background:rgba(10,18,35,0.55);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(96,165,250,0.15);border-radius:22px;box-shadow:0 8px 32px rgba(0,0,0,0.35);display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;z-index:200;transition:all .3s cubic-bezier(.4,0,.2,1)}
 .logo{display:flex;flex-direction:column;align-items:center;gap:2px;padding:14px 0;border-bottom:1px solid var(--card-b);flex-shrink:0}
 .logo-img{width:36px;height:36px;border-radius:50%;overflow:hidden;border:1px solid var(--card-b);box-shadow:0 0 14px rgba(59,130,246,.35);flex-shrink:0}
 .logo-img img{width:100%;height:100%;object-fit:cover}
