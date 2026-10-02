@@ -2566,7 +2566,6 @@ async function init(){{
 
 init();
 
-
 (function(){
   var c = document.getElementById('panel-stars');
   if (!c) return;
