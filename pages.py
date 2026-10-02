@@ -259,6 +259,34 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
+
+/* ═══════ پس‌زمینه با orb + ستاره (از پنل mmd) ═══════ */
+.bg-fx{position:fixed;inset:0;z-index:-2;pointer-events:none;overflow:hidden;
+  background:
+    radial-gradient(ellipse 80% 55% at 5% 15%,rgba(37,99,235,0.4),transparent 50%),
+    radial-gradient(ellipse 55% 45% at 95% 5%,rgba(59,130,246,0.28),transparent 45%),
+    radial-gradient(ellipse 65% 50% at 75% 90%,rgba(29,78,216,0.32),transparent 50%),
+    radial-gradient(ellipse 45% 35% at 15% 85%,rgba(96,165,250,0.18),transparent 45%),
+    linear-gradient(165deg,#060b16 0%,#0a1628 45%,#0c1a30 100%);}
+.bg-fx::before{content:"";position:absolute;width:480px;height:480px;border-radius:50%;
+  top:-100px;left:-80px;background:radial-gradient(circle,rgba(59,130,246,0.45),transparent 68%);
+  filter:blur(50px);animation:orbFloat 14s ease-in-out infinite;}
+.bg-fx::after{content:"";position:absolute;width:400px;height:400px;border-radius:50%;
+  bottom:-60px;right:-50px;background:radial-gradient(circle,rgba(37,99,235,0.38),transparent 68%);
+  filter:blur(55px);animation:orbFloat 18s ease-in-out infinite reverse;}
+@keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(40px,25px) scale(1.1)}}
+.grid-fx{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:0.35;
+  background-image:linear-gradient(rgba(96,165,250,0.05) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(96,165,250,0.05) 1px,transparent 1px);
+  background-size:56px 56px;}
+.panel-stars{position:fixed;inset:0;pointer-events:none;z-index:-1;overflow:hidden;}
+.panel-stars .ps{position:absolute;border-radius:50%;background:#fff;
+  box-shadow:0 0 6px rgba(147,197,253,0.9),0 0 12px rgba(59,130,246,0.6);
+  animation:panelStarBlink 3s ease-in-out infinite;}
+@keyframes panelStarBlink{
+  0%,100%{opacity:0.15;transform:scale(0.85)}
+  50%{opacity:0.9;transform:scale(1.15)}
+}
 :root{
   --bg:#060f1d;--bg2:#0a1628;--bg3:#0e1e35;
   --card:#0d1b2e;--card-b:rgba(59,130,246,0.13);--card-bh:rgba(59,130,246,0.28);
@@ -834,6 +862,9 @@ a{color:inherit;text-decoration:none}
 </style>
 </head>
 <body>
+<div class="bg-fx"></div>
+<div class="grid-fx"></div>
+<div class="panel-stars" id="panel-stars"></div>
 <div class="toast" id="toast"></div>
 <div class="modal-bg" id="modal-links">
   <div class="modal-v2" style="max-width:500px">
@@ -2534,5 +2565,22 @@ async function init(){{
 }}
 
 init();
+
+// ── پس‌زمینه ستاره‌دار (از پنل mmd) ──────────────
+(function generatePanelStars(){
+  const c = document.getElementById('panel-stars');
+  if(!c) return;
+  const N = 35;
+  let html = '';
+  for(let i = 0; i < N; i++){
+    const size = (Math.random() * 2 + 1).toFixed(1);
+    const top = (Math.random() * 100).toFixed(2);
+    const left = (Math.random() * 100).toFixed(2);
+    const dur = (Math.random() * 3 + 2.5).toFixed(2);
+    const delay = (Math.random() * 5).toFixed(2);
+    html += `<span class="ps" style="width:${size}px;height:${size}px;top:${top}%;left:${left}%;animation-duration:${dur}s;animation-delay:${delay}s"></span>`;
+  }
+  c.innerHTML = html;
+})();
 </script>
 </body></html>"""
