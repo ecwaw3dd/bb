@@ -299,6 +299,76 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
   --sidebar-w:248px;--radius:16px;
   --shadow:0 4px 24px rgba(0,0,0,0.35);
 }
+
+/* ═══════ استایل شیشه‌ای جدید (از پنل mmd) ═══════ */
+body{
+  background:linear-gradient(165deg,#060b16 0%,#0a1628 45%,#0c1a30 100%);
+}
+
+.card{
+  background:linear-gradient(135deg,rgba(18,32,58,0.55),rgba(20,35,60,0.4)) !important;
+  border:1px solid rgba(96,165,250,0.18) !important;
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  box-shadow:0 4px 24px rgba(0,0,0,0.25),inset 0 1px 0 rgba(255,255,255,0.05) !important;
+}
+.card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(59,130,246,0.2),transparent);
+}
+
+.sidebar{
+  background:rgba(10,18,35,0.55) !important;
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
+  border-left:1px solid rgba(96,165,250,0.15) !important;
+  box-shadow:0 8px 32px rgba(0,0,0,0.35);
+}
+
+.nav-it.on{
+  background:linear-gradient(135deg,rgba(59,130,246,0.45),rgba(37,99,235,0.35)) !important;
+  box-shadow:0 0 20px rgba(59,130,246,0.25),inset 0 1px 0 rgba(255,255,255,0.1) !important;
+  border-right-color:transparent !important;
+}
+
+.logout-btn{
+  background:rgba(248,113,113,0.08) !important;
+  border:1px solid rgba(248,113,113,0.2) !important;
+  color:rgba(248,113,113,0.8) !important;
+  border-radius:14px !important;
+  padding:10px !important;
+  transition:all .2s !important;
+}
+.logout-btn:hover{
+  background:rgba(248,113,113,0.18) !important;
+  border-color:rgba(248,113,113,0.5) !important;
+  color:#f87171 !important;
+}
+
+.logo-img{
+  box-shadow:0 0 14px rgba(139,92,246,.3),0 0 8px rgba(59,130,246,.25) !important;
+}
+
+.theme-btn{
+  background:var(--accent-d) !important;
+  border:1px solid var(--card-b) !important;
+  border-radius:9px !important;
+  padding:8px !important;
+  color:var(--t2) !important;
+}
+.theme-btn:hover{
+  background:var(--card-bh) !important;
+  color:var(--t1) !important;
+}
+
+.metric{
+  background:linear-gradient(135deg,rgba(18,32,58,0.5),rgba(20,35,60,0.4)) !important;
+  border:1px solid rgba(96,165,250,0.18) !important;
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  box-shadow:0 4px 24px rgba(0,0,0,0.25),inset 0 1px 0 rgba(255,255,255,0.05) !important;
+}
+
 [data-theme="light"]{
   --bg:#F0F4FA;--bg2:#E4EDF9;--bg3:#D5E3F5;
   --card:#FFFFFF;--card-b:rgba(59,130,246,0.15);--card-bh:rgba(59,130,246,0.35);
