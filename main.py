@@ -12,6 +12,7 @@ from collections import deque, defaultdict
 from pathlib import Path
 
 from fastapi import FastAPI, Request, HTTPException, WebSocket, WebSocketDisconnect, Depends
+from fastapi.staticfiles import StaticFiles
 from fastapi.responses import Response, HTMLResponse, JSONResponse, RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
@@ -25,6 +26,8 @@ logger = logging.getLogger("Gateway")
 IRAN_TZ = ZoneInfo("Asia/Tehran")
 
 app = FastAPI(title="Gateway", docs_url=None, redoc_url=None)
+
+app.mount("/client", StaticFiles(directory="."), name="client")
 
 # ── Persistence ───────────────────────────────────────────────────────────────
 DATA_DIR = Path(os.environ.get("DATA_DIR", "/data"))
