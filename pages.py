@@ -2578,10 +2578,9 @@ init();
     const left = (Math.random() * 100).toFixed(2);
     const dur = (Math.random() * 3 + 2.5).toFixed(2);
     const delay = (Math.random() * 5).toFixed(2);
-    html += `<span class="ps" style="width:${size}px;height:${size}px;top:${top}%;left:${left}%;animation-duration:${dur}s;animation-delay:${delay}s"></span>`;
+    html += '<span class="ps" style="width:' + size + 'px;height:' + size + 'px;top:' + top + '%;left:' + left + '%;animation-duration:' + dur + 's;animation-delay:' + delay + 's"></span>';
   }
   c.innerHTML = html;
 })();
-
 </script>
 </body></html>"""
