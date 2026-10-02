@@ -15,6 +15,15 @@ LOGIN_HTML = r"""<!DOCTYPE html>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Inter:wght@300;400;500;600;700&family=Vazirmatn:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
+.dash-info-card{display:flex;align-items:center;justify-content:space-around;gap:12px;background:rgba(18,32,58,0.5);border:1px solid rgba(96,165,250,0.18);border-radius:16px;padding:22px 24px;margin-bottom:18px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 4px 24px rgba(0,0,0,0.25),inset 0 1px 0 rgba(255,255,255,0.05)}
+.dash-info-item{flex:1;text-align:center}
+.di-label{font-size:11px;color:var(--t3);font-weight:600;margin-bottom:8px;letter-spacing:.03em}
+.di-val{font-size:24px;font-weight:800;color:var(--t1);letter-spacing:-.02em;line-height:1}
+.dash-info-divider{width:1px;height:44px;background:rgba(96,165,250,0.15);flex-shrink:0}
+@media(max-width:600px){
+  .dash-info-card{flex-direction:column;padding:18px}
+  .dash-info-divider{width:80%;height:1px}
+}
 :root{
   --gold:#3b82f6;--gold2:#60a5fa;--gold3:#2563eb;
   --gold-dim:rgba(59,130,246,0.15);--gold-glow:0 0 28px rgba(59,130,246,0.35);
@@ -1152,7 +1161,23 @@ a{color:inherit;text-decoration:none}
     
   </div>
 </div>
-<!-- 🎯 اینجا محتوای جدیدت رو اضافه کن -->
+
+<div class="dash-info-card">
+  <div class="dash-info-item">
+    <div class="di-label">اینباندها</div>
+    <div class="di-val" id="di-inbounds">0</div>
+  </div>
+  <div class="dash-info-divider"></div>
+  <div class="dash-info-item">
+    <div class="di-label">آپتایم</div>
+    <div class="di-val" id="di-uptime">-</div>
+  </div>
+  <div class="dash-info-divider"></div>
+  <div class="dash-info-item">
+    <div class="di-label">کاربران آنلاین</div>
+    <div class="di-val" id="di-online">0</div>
+  </div>
+</div>
 </section>
 <section class="pg" id="pg-links">
   <div class="topbar">
@@ -1647,6 +1672,9 @@ let prevTraf=0,ch1,ch2,ch3;
 async function fetchStats(){
   try{
     const r=await authF('/stats'),d=await r.json();
+    const diInbounds=document.getElementById('di-inbounds');if(diInbounds)diInbounds.textContent=d.links_count||0;
+    const diUptime=document.getElementById('di-uptime');if(diUptime)diUptime.textContent=d.uptime||'-';
+    const diOnline=document.getElementById('di-online');if(diOnline)diOnline.textContent=d.active_connections||0;
     document.getElementById('m-conns').textContent=d.active_connections;
     document.getElementById('conns-nb').textContent=d.active_connections;
     document.getElementById('m-traffic').innerHTML=d.total_traffic_mb.toFixed(1)+'<span class="m-unit">MB</span>';
