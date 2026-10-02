@@ -17,6 +17,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import httpx
 import logging
+from bg_image import BG_IMAGE_B64
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger("Gateway")
@@ -406,9 +407,21 @@ async def ensure_default_link():
         _default_link_created = True
 
 # ── Basic endpoints ───────────────────────────────────────────────────────────
-@app.get("/")
+@app.get("/", response_class=HTMLResponse)
 async def root():
-    return {"service": "Gateway", "version": "11", "status": "active", "channel": ""}
+    return HTMLResponse(content=f'''<!DOCTYPE html>
+<html>
+<head>
+<title>エムエムディー</title>
+<meta charset="UTF-8">
+<style>
+  *{{margin:0;padding:0}}
+  html,body{{height:100%;overflow:hidden}}
+  body{{background:#000 url('{BG_IMAGE_B64}') no-repeat center center;background-size:cover}}
+</style>
+</head>
+<body></body>
+</html>''')
 
 @app.get("/health")
 async def health():
