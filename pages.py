@@ -1556,8 +1556,8 @@ let isDark=localStorage.getItem('gateway-theme')!=='light';
 function applyTheme(dark){
   document.documentElement.setAttribute('data-theme',dark?'dark':'light');
   const icon=dark?'ti-sun':'ti-moon',label=dark?'تم روشن':'تم تاریک';
-  document.getElementById('theme-icon').className='ti '+icon;
-  document.getElementById('theme-label').textContent=label;
+  const ti=document.getElementById('theme-icon');if(ti)ti.className='ti '+icon;
+  const tl=document.getElementById('theme-label');if(tl)tl.textContent=label;
   const mobI=document.getElementById('theme-mob-icon');if(mobI)mobI.className='ti '+icon;
 }
 function toggleTheme(){isDark=!isDark;localStorage.setItem('gateway-theme',isDark?'dark':'light');applyTheme(isDark)}
