@@ -1095,7 +1095,8 @@ a{color:inherit;text-decoration:none}
   <span>خروج</span>
 </button>
 <main class="main">
-<section class="pg on" id="pg-overview" style="display:none !important">
+<section class="pg on" id="pg-overview">
+<div style="display:none">
   <div class="topbar">
     <div><div class="tb-title"><i class="ti ti-layout-dashboard"></i> داشبورد</div><div class="tb-sub" id="last-upd">در حال بارگذاری...</div></div>
     <div class="tb-right">
@@ -1103,7 +1104,6 @@ a{color:inherit;text-decoration:none}
       <span class="badge bg-blue" id="uptime-badge">—</span>
       <button class="btn btn-p btn-sm" onclick="refreshAll()"><i class="ti ti-refresh"></i> رفرش</button>
     </div>
-  </div>
   <div class="metrics">
     <div class="metric"><div class="m-icon"><i class="ti ti-plug-connected"></i></div><div class="m-label">اتصالات فعال</div><div class="m-val" id="m-conns">—</div><div class="m-sub"><span class="dot dg pulse"></span> WebSocket / XHTTP زنده</div></div>
     <div class="metric"><div class="m-icon"><i class="ti ti-transfer"></i></div><div class="m-label">کل ترافیک</div><div class="m-val" id="m-traffic">—<span class="m-unit">MB</span></div><div class="m-sub">از راه‌اندازی</div></div>
@@ -1151,6 +1151,8 @@ a{color:inherit;text-decoration:none}
     
     
   </div>
+</div>
+<!-- 🎯 اینجا محتوای جدیدت رو اضافه کن -->
 </section>
 <section class="pg" id="pg-links">
   <div class="topbar">
