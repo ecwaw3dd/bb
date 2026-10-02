@@ -300,7 +300,7 @@ def vless_link_for_link(link: dict, uid: str, host: str) -> str:
     proto = link.get("protocol", DEFAULT_PROTOCOL)
     return generate_vless_link(
         uid, host,
-        remark=f"Gateway-{link.get('label','')}",
+        remark=link.get('label','') or "Gateway",
         protocol=proto,
         fingerprint=link.get("fingerprint"),
         alpn=link.get("alpn"),
