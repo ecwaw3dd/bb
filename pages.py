@@ -304,6 +304,8 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
 .node-block{display:flex;flex-direction:column}
 .node-label{font-size:11px;font-weight:700;color:rgba(147,197,253,0.85);margin-bottom:8px;display:flex;align-items:center;gap:5px}
 .node-input{width:100%;padding:10px 13px;border-radius:10px;border:1px solid rgba(96,165,250,0.2);background:rgba(0,0,0,0.2);color:#E8F4FF;font-family:inherit;font-size:12.5px;outline:none;transition:.15s}
+.node-select{cursor:pointer;appearance:none;-webkit-appearance:none;-moz-appearance:none;background-image:url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2360a5fa' stroke-width='2.5'%3e%3cpolyline points='6 9 12 15 18 9'/%3e%3c/svg%3e");background-repeat:no-repeat;background-position:left 12px center;background-size:14px;padding-left:34px;background-color:rgba(0,0,0,0.2)}
+.node-select option{background:#0a1628;color:#E8F4FF;padding:10px}
 .node-input:focus{border-color:rgba(59,130,246,0.5);box-shadow:0 0 0 3px rgba(59,130,246,0.1)}
 .node-input::placeholder{color:rgba(147,197,253,0.35)}
 .node-input.node-token{font-family:ui-monospace,monospace;font-size:11px;letter-spacing:.02em}
@@ -1616,11 +1618,31 @@ a{color:inherit;text-decoration:none}
           <label class="node-label">نام پنل</label>
           <input class="node-input" type="text" id="node-name" placeholder="Gateway-Node">
         </div>
-        <div class="node-block">
-          <label class="node-label">پرچم</label>
-          <input class="node-input" type="text" id="node-flag" placeholder="🇳🇱" maxlength="10">
-        </div>
-      </div>
+<div class="node-block">
+  <label class="node-label">کشور / پرچم</label>
+  <select class="node-input node-select" id="node-flag">
+    <option value="🇳🇱">🇳🇱 Netherlands</option>
+    <option value="🇺🇸">🇺🇸 United States</option>
+    <option value="🇩🇪">🇩🇪 Germany</option>
+    <option value="🇫🇷">🇫🇷 France</option>
+    <option value="🇬🇧">🇬🇧 United Kingdom</option>
+    <option value="🇫🇮">🇫🇮 Finland</option>
+    <option value="🇸🇪">🇸🇪 Sweden</option>
+    <option value="🇨🇭">🇨🇭 Switzerland</option>
+    <option value="🇦🇹">🇦🇹 Austria</option>
+    <option value="🇵🇱">🇵🇱 Poland</option>
+    <option value="🇸🇬">🇸🇬 Singapore</option>
+    <option value="🇯🇵">🇯🇵 Japan</option>
+    <option value="🇹🇷">🇹🇷 Turkey</option>
+    <option value="🇦🇪">🇦🇪 UAE</option>
+    <option value="🇨🇦">🇨🇦 Canada</option>
+    <option value="🇦🇺">🇦🇺 Australia</option>
+    <option value="🇮🇹">🇮🇹 Italy</option>
+    <option value="🇪🇸">🇪🇸 Spain</option>
+    <option value="🇮🇳">🇮🇳 India</option>
+    <option value="🇧🇷">🇧🇷 Brazil</option>
+  </select>
+</div>
 
       <div class="node-row">
         <div class="node-block">
