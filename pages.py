@@ -1097,59 +1097,60 @@ a{color:inherit;text-decoration:none}
 <main class="main">
 <section class="pg on" id="pg-overview">
   <div class="topbar">
-    <div><div class="tb-title"><i class="ti ti-layout-dashboard"></i> داشبورد</div><div class="tb-sub" id="last-upd">در حال بارگذاری...</div></div>
+    <div>
+      <div class="tb-title"><i class="ti ti-layout-dashboard"></i> داشبورد</div>
+      <div class="tb-sub" id="last-upd">در حال بارگذاری...</div>
+    </div>
     <div class="tb-right">
-      <span class="badge bg-green"><span class="dot dg pulse"></span> فعال</span>
-      <span class="badge bg-blue" id="uptime-badge">—</span>
       <button class="btn btn-p btn-sm" onclick="refreshAll()"><i class="ti ti-refresh"></i> رفرش</button>
     </div>
   </div>
-  <div class="metrics">
-    <div class="metric"><div class="m-icon"><i class="ti ti-plug-connected"></i></div><div class="m-label">اتصالات فعال</div><div class="m-val" id="m-conns">—</div><div class="m-sub"><span class="dot dg pulse"></span> WebSocket / XHTTP زنده</div></div>
-    <div class="metric"><div class="m-icon"><i class="ti ti-transfer"></i></div><div class="m-label">کل ترافیک</div><div class="m-val" id="m-traffic">—<span class="m-unit">MB</span></div><div class="m-sub">از راه‌اندازی</div></div>
-    <div class="metric suc"><div class="m-icon suc"><i class="ti ti-link"></i></div><div class="m-label">کانفیگ فعال</div><div class="m-val" id="m-alinks">—</div><div class="m-sub" id="m-lsub">از کل</div></div>
-    <div class="metric pur"><div class="m-icon pur"><i class="ti ti-folders"></i></div><div class="m-label">گروه‌های ساب</div><div class="m-val" id="m-subs">—</div><div class="m-sub">فعال</div></div>
-  </div>
-  <div class="vless-box">
-    <div class="vl-header">
-      <div class="vl-title"><i class="ti ti-link"></i> لینک پیش‌فرض (بدون محدودیت)</div>
-      <span class="badge bg-blue"><span class="dot db"></span> TLS 443 · WS</span>
-    </div>
-    <div class="vl-code" id="vless-main">در حال دریافت...</div>
-    <div class="vl-actions">
-      <button class="btn btn-p" onclick="cpText('vless-main')"><i class="ti ti-copy"></i> کپی</button>
-      <button class="btn btn-g" onclick="qrFor('vless-main')"><i class="ti ti-qrcode"></i> QR</button>
-      <button class="btn btn-o" onclick="navTo('links')"><i class="ti ti-link-plus"></i> کانفیگ محدود</button>
-      <button class="btn btn-pur" onclick="navTo('subgroups')"><i class="ti ti-folders"></i> گروه‌های ساب</button>
-    </div>
-  </div>
-  <div class="g3">
-    <div class="card"><div class="card-title"><i class="ti ti-chart-area"></i> ترافیک ساعتی (MB)</div><div class="ch"><canvas id="ch1"></canvas></div></div>
-    <div class="card"><div class="card-title"><i class="ti ti-chart-donut"></i> توزیع</div><div class="ch-sm"><canvas id="ch2"></canvas></div></div>
-  </div>
-  <div class="g2">
-    <div class="card">
-      <div class="card-title"><i class="ti ti-activity"></i> وضعیت سرویس</div>
-      <div class="sr"><span class="sr-k"><i class="ti ti-shield-check"></i> UUID Auth</span><span class="sr-v" style="color:var(--green-t)">● فعال · سخت‌گیرانه</span></div>
-      <div class="sr"><span class="sr-k"><i class="ti ti-circle-check"></i> VLESS / WS Tunnel</span><span class="sr-v" style="color:var(--green-t)">● فعال</span></div>
-      <div class="sr"><span class="sr-k"><i class="ti ti-bolt"></i> Siz10a XHTTP Ultra</span><span class="sr-v" style="color:var(--green-t)">● فعال · 3 mode</span></div>
-      <div class="sr"><span class="sr-k"><i class="ti ti-folders"></i> Sub Groups</span><span class="sr-v" style="color:var(--green-t)">● فعال v9</span></div>
-      <div class="sr"><span class="sr-k"><i class="ti ti-rss"></i> Subscription API</span><span class="sr-v" style="color:var(--green-t)">● فعال</span></div>
-      <div class="sr"><span class="sr-k"><i class="ti ti-clock"></i> آپتایم</span><span class="sr-v" id="uptime-inline">—</span></div>
-      <div class="sr" style="flex-direction:column;align-items:flex-start;gap:4px">
-        <div style="width:100%;display:flex;justify-content:space-between"><span class="sr-k"><i class="ti ti-gauge"></i> بار نسبی</span><span class="sr-v" id="bw-pct">—%</span></div>
-        <div class="spbar" style="width:100%"><div class="spfill" id="bw-bar" style="width:0%"></div></div>
+
+  <div class="dash-top-row">
+    <div class="dash-circles">
+      <div class="circle-stat">
+        <svg viewBox="0 0 100 100">
+          <circle class="cs-bg" cx="50" cy="50" r="42"/>
+          <circle class="cs-fill" cx="50" cy="50" r="42" id="cpu-circle" stroke="#4ade80"/>
+        </svg>
+        <div class="circle-center">
+          <div class="circle-val" id="cpu-v">-%</div>
+          <div class="circle-label">CPU</div>
+        </div>
+      </div>
+      <div class="circle-stat">
+        <svg viewBox="0 0 100 100">
+          <circle class="cs-bg" cx="50" cy="50" r="42"/>
+          <circle class="cs-fill" cx="50" cy="50" r="42" id="mem-circle" stroke="#fbbf24"/>
+        </svg>
+        <div class="circle-center">
+          <div class="circle-val" id="mem-v">-%</div>
+          <div class="circle-label">RAM</div>
+        </div>
       </div>
     </div>
-    <div class="card">
-      <div class="card-title"><i class="ti ti-list"></i> خلاصه کانفیگ‌ها <span class="ml-auto badge bg-blue" id="lsummary-badge">۰</span></div>
-      <div id="lsummary">—</div>
+
+    <div class="dash-info-card">
+      <div class="dash-info-item">
+        <div class="di-label">اینباندها</div>
+        <div class="di-val" id="m-alinks">-</div>
+      </div>
+      <div class="dash-info-divider"></div>
+      <div class="dash-info-item">
+        <div class="di-label">آپتایم</div>
+        <div class="di-val" id="uptime-inline">-</div>
+      </div>
+      <div class="dash-info-divider"></div>
+      <div class="dash-info-item">
+        <div class="di-label">کاربران آنلاین</div>
+        <div class="di-val" id="m-conns">0</div>
+      </div>
     </div>
   </div>
-  <div class="dash-footer">
-    <span class="df-text">Gateway v11 · Railway</span>
-    
-    
+
+  <div class="card">
+    <div class="card-title"><i class="ti ti-chart-area"></i> ترافیک ساعتی (MB)</div>
+    <div class="ch"><canvas id="ch1"></canvas></div>
   </div>
 </section>
 <section class="pg" id="pg-links">
@@ -1646,27 +1647,43 @@ async function fetchStats(){
   try{
     const r=await authF('/stats'),d=await r.json();
     document.getElementById('m-conns').textContent=d.active_connections;
-    document.getElementById('conns-nb').textContent=d.active_connections;
-    document.getElementById('m-traffic').innerHTML=d.total_traffic_mb.toFixed(1)+'<span class="m-unit">MB</span>';
+    const cn=document.getElementById('conns-nb');if(cn)cn.textContent=d.active_connections;
     document.getElementById('m-alinks').textContent=d.active_links??'—';
-    document.getElementById('m-lsub').textContent='از '+d.links_count+' کانفیگ';
-    document.getElementById('m-subs').textContent=d.subs_count??'—';
-    document.getElementById('errs-badge').textContent=d.total_errors+' خطا';
     document.getElementById('uptime-inline').textContent=d.uptime;
-    document.getElementById('uptime-badge').textContent='Railway · '+d.uptime;
     document.getElementById('last-upd').textContent='آخرین بروزرسانی: '+new Date().toLocaleTimeString('fa-IR');
-    document.getElementById('conns-live').innerHTML='<span class="dot dg pulse"></span> '+d.active_connections+' اتصال';
-    document.getElementById('t-traffic').innerHTML=d.total_traffic_mb.toFixed(1)+'<span class="m-unit">MB</span>';
-    const delta=d.total_traffic_mb-prevTraf,pct=Math.min(100,Math.round((delta/50)*100));
-    document.getElementById('bw-pct').textContent=pct+'%';
-    document.getElementById('bw-bar').style.width=pct+'%';
-    prevTraf=d.total_traffic_mb;
+    
     if(d.hourly){
       const labels=Object.keys(d.hourly).sort(),vals=labels.map(k=>+(d.hourly[k]/1024**2).toFixed(2));
-      [ch1,ch3].forEach(c=>{if(!c)return;c.data.labels=labels;c.data.datasets[0].data=vals;c.update()});
-      if(vals.length){const avg=vals.reduce((a,b)=>a+b,0)/vals.length,peak=Math.max(...vals);document.getElementById('t-avg').innerHTML=avg.toFixed(2)+'<span class="m-unit">MB</span>';document.getElementById('t-peak').innerHTML=peak.toFixed(2)+'<span class="m-unit">MB</span>';}
+      if(ch1){ch1.data.labels=labels;ch1.data.datasets[0].data=vals;ch1.update();}
     }
-    renderErrs(d.recent_errors||[]);
+    
+    if(d.cpu_percent!==undefined){
+      const c=d.cpu_percent;
+      const cc=c>80?'#f87171':c>50?'#fbbf24':'#4ade80';
+      const cpuV=document.getElementById('cpu-v');
+      if(cpuV){cpuV.textContent=c.toFixed(0)+'%';cpuV.style.color=cc;}
+      const cpuCircle=document.getElementById('cpu-circle');
+      if(cpuCircle){
+        cpuCircle.style.stroke=cc;
+        const circumference=2*Math.PI*42;
+        cpuCircle.style.strokeDasharray=circumference;
+        cpuCircle.style.strokeDashoffset=circumference-(circumference*c/100);
+      }
+    }
+    
+    if(d.memory_percent!==undefined){
+      const m=d.memory_percent;
+      const mc=m>80?'#f87171':m>50?'#f59e0b':'#fbbf24';
+      const memV=document.getElementById('mem-v');
+      if(memV){memV.textContent=m.toFixed(0)+'%';memV.style.color=mc;}
+      const memCircle=document.getElementById('mem-circle');
+      if(memCircle){
+        memCircle.style.stroke=mc;
+        const circumference=2*Math.PI*42;
+        memCircle.style.strokeDasharray=circumference;
+        memCircle.style.strokeDashoffset=circumference-(circumference*m/100);
+      }
+    }
   }catch(e){console.error(e)}
 }
 function renderErrs(errs){
@@ -2071,9 +2088,7 @@ async function loadConns(){
   }catch(e){console.error(e)}
 }
 async function loadErrs(){try{const r=await authF('/stats'),d=await r.json();renderErrs(d.recent_errors||[]);}catch(e){}}
-async function fetchDefaultVless(){
-  try{const r=await authF('/api/links'),d=await r.json();const links=d.links||[];const def=links.find(l=>l.limit_bytes===0&&l.active&&!l.expired)||links.find(l=>l.active&&!l.expired)||links[0];document.getElementById('vless-main').textContent=def?def.vless_link:'هنوز کانفیگی وجود ندارد';}catch(e){}
-}
+async function fetchDefaultVless(){/* removed */}
 function cpText(id){navigator.clipboard.writeText(document.getElementById(id).textContent).then(()=>toast('کپی شد ✓','ok'))}
 function qrFor(id){showQR(document.getElementById(id).textContent)}
 function refreshAll(){fetchStats();fetchDefaultVless();loadLinks();if(document.getElementById('pg-subgroups').classList.contains('on'))loadSubs();if(document.getElementById('pg-subscriptions').classList.contains('on'))loadSubsPage();if(document.getElementById('pg-connections').classList.contains('on'))loadConns();if(document.getElementById('pg-logs').classList.contains('on'))loadActivity();toast('رفرش شد','ok')}
@@ -2172,22 +2187,7 @@ function initCharts(){
     }
   });
 
-  ch2=new Chart(document.getElementById('ch2'),{
-    type:'doughnut',
-    data:{labels:['VLESS/WS','XHTTP Ultra','HTTP Proxy'],datasets:[{
-      data:[55,35,10],
-      backgroundColor:['#3B82F6','#10B981','#8B5CF6'],
-      borderColor:getComputedStyle(document.documentElement).getPropertyValue('--card')||'#0d1b2e',
-      borderWidth:4,hoverOffset:10,borderRadius:6,spacing:3
-    }]},
-    options:{
-      responsive:true,maintainAspectRatio:false,cutout:'72%',
-      plugins:{
-        legend:{position:'bottom',labels:{color:'var(--t2)',font:{size:10,family:'Vazirmatn'},padding:12,usePointStyle:true,pointStyle:'circle'}},
-        tooltip:{backgroundColor:'rgba(13,27,46,.96)',borderColor:'rgba(59,130,246,.3)',borderWidth:1,padding:10,cornerRadius:10,bodyFont:{family:'Vazirmatn'},titleFont:{family:'Vazirmatn'}}
-      }
-    }
-  });
+/* ch2 (دونات) حذف شد — داشبورد جدید نیازی نداره */
 }
 let ws;
 function wsLog(c,m){const l=document.getElementById('ws-log'),p=document.createElement('p');const colors={ok:'#34D399',err:'#F87171',info:'#7BAED4',sent:'#FCD34D'};p.style.color=colors[c]||'#fff';p.textContent='['+new Date().toLocaleTimeString('fa-IR')+'] '+m;l.appendChild(p);l.scrollTop=l.scrollHeight}
