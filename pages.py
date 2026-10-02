@@ -287,6 +287,54 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
   0%,100%{opacity:0.15;transform:scale(0.85)}
   50%{opacity:0.9;transform:scale(1.15)}
 }
+
+/* ═══════════════════════════════════════════
+   🌐 نقش پنل (Master/Node) Panel
+   ═══════════════════════════════════════════ */
+.node-panel{background:linear-gradient(155deg,rgba(18,32,58,0.55),rgba(20,35,60,0.4));border:1px solid rgba(96,165,250,0.2);border-radius:20px;padding:0;overflow:hidden;position:relative}
+.node-panel::before{content:'';position:absolute;top:-50px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(59,130,246,0.15),transparent 70%);pointer-events:none}
+.node-hero{display:flex;align-items:center;gap:14px;padding:20px 22px;border-bottom:1px solid rgba(96,165,250,0.15);position:relative;z-index:1}
+.node-hero-icon{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#3b82f6,#60a5fa);display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;flex-shrink:0;box-shadow:0 6px 18px rgba(59,130,246,.35)}
+.node-hero-text{flex:1;min-width:0}
+.node-hero-title{font-size:15px;font-weight:800;color:#E8F4FF}
+.node-hero-sub{font-size:11px;color:rgba(147,197,253,0.65);margin-top:4px;line-height:1.6}
+.node-body{padding:18px 22px 22px;position:relative;z-index:1}
+.node-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.node-row:has(.node-block:only-child){grid-template-columns:1fr}
+.node-block{display:flex;flex-direction:column}
+.node-label{font-size:11px;font-weight:700;color:rgba(147,197,253,0.85);margin-bottom:8px;display:flex;align-items:center;gap:5px}
+.node-input{width:100%;padding:10px 13px;border-radius:10px;border:1px solid rgba(96,165,250,0.2);background:rgba(0,0,0,0.2);color:#E8F4FF;font-family:inherit;font-size:12.5px;outline:none;transition:.15s}
+.node-input:focus{border-color:rgba(59,130,246,0.5);box-shadow:0 0 0 3px rgba(59,130,246,0.1)}
+.node-input::placeholder{color:rgba(147,197,253,0.35)}
+.node-input.node-token{font-family:ui-monospace,monospace;font-size:11px;letter-spacing:.02em}
+.node-token-wrap{display:flex;gap:8px;align-items:stretch}
+.node-token-wrap .node-input{flex:1}
+.node-copy-btn{padding:0 14px;border-radius:10px;border:1px solid rgba(96,165,250,0.25);background:rgba(59,130,246,0.1);color:#60a5fa;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;transition:.15s}
+.node-copy-btn:hover{background:rgba(59,130,246,0.2);border-color:rgba(96,165,250,0.5)}
+.node-hint{font-size:10px;color:rgba(147,197,253,0.55);margin-top:7px;display:flex;align-items:flex-start;gap:5px;line-height:1.6}
+.node-hint i{color:#60a5fa;font-size:12px;margin-top:1px;flex-shrink:0}
+.node-roles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.node-role-opt{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:12px;border:1.5px solid rgba(96,165,250,0.2);background:rgba(0,0,0,0.15);cursor:pointer;transition:.2s;position:relative}
+.node-role-opt:hover{border-color:rgba(96,165,250,0.4);background:rgba(59,130,246,0.05)}
+.node-role-opt.active{border-color:#3b82f6;background:rgba(59,130,246,0.12);box-shadow:0 0 0 3px rgba(59,130,246,0.08)}
+.node-role-opt input{display:none}
+.node-role-icon{width:34px;height:34px;border-radius:10px;background:rgba(59,130,246,0.15);color:#60a5fa;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;transition:.2s}
+.node-role-opt.active .node-role-icon{background:linear-gradient(135deg,#3b82f6,#60a5fa);color:#fff;box-shadow:0 4px 12px rgba(59,130,246,.4)}
+.node-role-text{display:flex;flex-direction:column;min-width:0}
+.node-role-title{font-size:12.5px;font-weight:800;color:#E8F4FF}
+.node-role-desc{font-size:10px;color:rgba(147,197,253,0.55);margin-top:2px}
+.node-role-opt.active .node-role-desc{color:rgba(147,197,253,0.85)}
+.node-footer{margin-top:18px;padding-top:16px;border-top:1px solid rgba(96,165,250,0.12);display:flex;justify-content:flex-end}
+.node-save-btn{background:linear-gradient(135deg,#3b82f6,#60a5fa);color:#fff;border:none;border-radius:12px;padding:11px 22px;font-family:inherit;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:7px;box-shadow:0 6px 18px rgba(59,130,246,.35);transition:.18s}
+.node-save-btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(59,130,246,.5)}
+.node-save-btn:active{transform:translateY(0) scale(.98)}
+@media(max-width:700px){
+  .node-row{grid-template-columns:1fr}
+  .node-roles{grid-template-columns:1fr}
+  .node-hero{padding:16px 18px}
+  .node-body{padding:14px 18px 18px}
+}
+
 :root{
   --bg:#060f1d;--bg2:#0a1628;--bg3:#0e1e35;
   --card:#0d1b2e;--card-b:rgba(59,130,246,0.13);--card-bh:rgba(59,130,246,0.28);
@@ -1527,6 +1575,95 @@ a{color:inherit;text-decoration:none}
       </div>
     </div>
   </div>
+    <!-- ═══════════════════════════════════════════════════════
+       🌐 نقش پنل (Master / Node)
+       ═══════════════════════════════════════════════════════ -->
+  <div class="node-panel" style="margin-top:14px">
+    <div class="node-hero">
+      <div class="node-hero-icon"><i class="ti ti-network"></i></div>
+      <div class="node-hero-text">
+        <div class="node-hero-title">نقش پنل (Master / Node)</div>
+        <div class="node-hero-sub">پنل Master کانفیگ می‌سازه، پنل Node اون‌ها رو دریافت می‌کنه</div>
+      </div>
+    </div>
+    <div class="node-body">
+      <div class="node-row">
+        <div class="node-block">
+          <label class="node-label">نقش این پنل</label>
+          <div class="node-roles">
+            <label class="node-role-opt active" id="role-master-label">
+              <input type="radio" name="panel_role" value="master" id="role-master" onchange="updateRoleUI()">
+              <span class="node-role-icon"><i class="ti ti-crown"></i></span>
+              <span class="node-role-text">
+                <span class="node-role-title">Master</span>
+                <span class="node-role-desc">مستقل کار می‌کنه</span>
+              </span>
+            </label>
+            <label class="node-role-opt" id="role-node-label">
+              <input type="radio" name="panel_role" value="node" id="role-node" onchange="updateRoleUI()">
+              <span class="node-role-icon"><i class="ti ti-server"></i></span>
+              <span class="node-role-text">
+                <span class="node-role-title">Node</span>
+                <span class="node-role-desc">از Master کانفیگ می‌گیره</span>
+              </span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="node-row">
+        <div class="node-block">
+          <label class="node-label">نام پنل</label>
+          <input class="node-input" type="text" id="node-name" placeholder="Gateway-Node">
+        </div>
+        <div class="node-block">
+          <label class="node-label">پرچم</label>
+          <input class="node-input" type="text" id="node-flag" placeholder="🇳🇱" maxlength="10">
+        </div>
+      </div>
+
+      <div class="node-row">
+        <div class="node-block">
+          <label class="node-label">🔑 توکن API این پنل (برای Master)</label>
+          <div class="node-token-wrap">
+            <input class="node-input node-token" type="text" id="node-my-token" readonly>
+            <button class="node-copy-btn" onclick="copyNodeToken()" title="کپی">
+              <i class="ti ti-copy"></i>
+            </button>
+          </div>
+          <div class="node-hint">
+            <i class="ti ti-info-circle"></i>
+            این توکن رو کپی کن و توی پنل Master (بخش «مدیریت نودها») وارد کن
+          </div>
+        </div>
+      </div>
+
+      <div class="node-row" id="node-master-fields" style="display:none">
+        <div class="node-block">
+          <label class="node-label">🌐 آدرس پنل Master</label>
+          <input class="node-input" type="text" id="node-master-url" placeholder="https://master-panel.up.railway.app">
+        </div>
+      </div>
+
+      <div class="node-row" id="node-master-fields-2" style="display:none">
+        <div class="node-block">
+          <label class="node-label">🔐 توکن پنل Master</label>
+          <input class="node-input" type="text" id="node-master-token" placeholder="nd_xxxxx...">
+          <div class="node-hint">
+            <i class="ti ti-info-circle"></i>
+            از پنل Master → تنظیمات → بخش «نقش پنل» کپی کن
+          </div>
+        </div>
+      </div>
+
+      <div class="node-footer">
+        <button class="node-save-btn" onclick="saveNodeSettings()">
+          <i class="ti ti-device-floppy"></i>
+          ذخیره تنظیمات نود
+        </button>
+      </div>
+    </div>
+  </div>
 </section>
 <section class="pg" id="pg-support">
   <div class="topbar"><div><div class="tb-title"><i class="ti ti-headset"></i> پشتیبانی</div></div></div>
@@ -2209,6 +2346,117 @@ document.addEventListener('DOMContentLoaded',async()=>{
     if(document.getElementById('pg-logs').classList.contains('on'))loadActivity();
   },5000);
 });
+
+// ═══════════════════════════════════════════════════════════════
+// 🌐 Node Settings — تنظیمات Master/Node
+// ═══════════════════════════════════════════════════════════════
+
+async function loadNodeSettings(){
+  try{
+    const r=await authF('/api/panel/info');
+    if(!r.ok)return;
+    const d=await r.json();
+    const roleMaster=document.getElementById('role-master');
+    const roleNode=document.getElementById('role-node');
+    const roleMasterLabel=document.getElementById('role-master-label');
+    const roleNodeLabel=document.getElementById('role-node-label');
+    if(d.panel_role==='node'||d.panel_role==='slave'){
+      if(roleNode)roleNode.checked=true;
+      if(roleMasterLabel)roleMasterLabel.classList.remove('active');
+      if(roleNodeLabel)roleNodeLabel.classList.add('active');
+    }else{
+      if(roleMaster)roleMaster.checked=true;
+      if(roleMasterLabel)roleMasterLabel.classList.add('active');
+      if(roleNodeLabel)roleNodeLabel.classList.remove('active');
+    }
+    const nameInp=document.getElementById('node-name');
+    if(nameInp)nameInp.value=d.panel_name||'';
+    const flagInp=document.getElementById('node-flag');
+    if(flagInp)flagInp.value=d.panel_flag||'🇳🇱';
+    const tokenInp=document.getElementById('node-my-token');
+    if(tokenInp)tokenInp.value=d.my_api_token||'';
+    const masterUrlInp=document.getElementById('node-master-url');
+    if(masterUrlInp)masterUrlInp.value=d.master_url||'';
+    const masterTokenInp=document.getElementById('node-master-token');
+    if(masterTokenInp)masterTokenInp.value=d.master_token||'';
+    updateRoleUI();
+  }catch(e){console.error('loadNodeSettings error:',e)}
+}
+
+function updateRoleUI(){
+  const roleMaster=document.getElementById('role-master');
+  const roleNode=document.getElementById('role-node');
+  const roleMasterLabel=document.getElementById('role-master-label');
+  const roleNodeLabel=document.getElementById('role-node-label');
+  const masterFields=document.getElementById('node-master-fields');
+  const masterFields2=document.getElementById('node-master-fields-2');
+  if(!roleMaster||!roleNode)return;
+  if(roleNode.checked){
+    if(roleMasterLabel)roleMasterLabel.classList.remove('active');
+    if(roleNodeLabel)roleNodeLabel.classList.add('active');
+    if(masterFields)masterFields.style.display='';
+    if(masterFields2)masterFields2.style.display='';
+  }else{
+    if(roleMasterLabel)roleMasterLabel.classList.add('active');
+    if(roleNodeLabel)roleNodeLabel.classList.remove('active');
+    if(masterFields)masterFields.style.display='none';
+    if(masterFields2)masterFields2.style.display='none';
+  }
+}
+
+async function saveNodeSettings(){
+  const role=document.querySelector('input[name="panel_role"]:checked');
+  const name=document.getElementById('node-name');
+  const flag=document.getElementById('node-flag');
+  const masterUrl=document.getElementById('node-master-url');
+  const masterToken=document.getElementById('node-master-token');
+  const body={
+    panel_role: role ? role.value : 'master',
+    panel_name: name ? name.value.trim() : '',
+    panel_flag: flag ? flag.value.trim() : '🇳🇱',
+    master_url: masterUrl ? masterUrl.value.trim() : '',
+    master_token: masterToken ? masterToken.value.trim() : '',
+  };
+  try{
+    const r=await authF('/api/panel/info',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(body)
+    });
+    if(!r.ok)throw new Error('خطا در ذخیره');
+    toast('تنظیمات نود ذخیره شد ✓','ok');
+    await loadNodeSettings();
+  }catch(e){
+    toast(e.message||'خطا در ذخیره','err');
+  }
+}
+
+function copyNodeToken(){
+  const inp=document.getElementById('node-my-token');
+  if(!inp||!inp.value){toast('توکنی موجود نیست','err');return}
+  navigator.clipboard.writeText(inp.value).then(()=>{
+    toast('توکن کپی شد ✓','ok');
+  }).catch(()=>{
+    inp.select();
+    document.execCommand('copy');
+    toast('توکن کپی شد ✓','ok');
+  });
+}
+
+// لود تنظیمات نود وقتی به صفحه تنظیمات می‌ریم
+const _origNavTo = typeof navTo === 'function' ? navTo : null;
+if(_origNavTo){
+  navTo = function(name){
+    _origNavTo(name);
+    if(name === 'settings'){
+      setTimeout(loadNodeSettings, 100);
+    }
+  };
+}
+
+// لود اولیه
+setTimeout(loadNodeSettings, 500);
+
 </script>
 </body></html>"""
 
