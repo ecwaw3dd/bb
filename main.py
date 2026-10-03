@@ -1318,6 +1318,24 @@ async def node_delete_user(request: Request):
     logger.info(f"[NODE] Deleted user {uid[:8]} by master request")
     return {"status": "ok", "uuid": uid}
 
+@app.get("/api/node/get-usage")
+async def node_get_usage(request: Request, uuid: str):
+    """مصرف یه کاربر رو برمی‌گردونه (برای Master).
+    
+    Master از Node می‌پرسه: مصرف کاربر X روی تو چقدره؟
+    Node جواب می‌ده.
+    """
+    token = request.headers.get("X-Node-Token", "")
+    my_token = CONFIG.get("my_api_token", "")
+    if not my_token or token != my_token:
+        raise HTTPException(status_code=401, detail="Invalid token")
+    
+    async with LINKS_LOCK:
+        link = LINKS.get(uuid)
+        if link is None:
+            raise HTTPException(status_code=404, detail="User not found")
+        return {"status": "ok", "used_bytes": int(link.get("used_bytes", 0))}
+
 
 @app.get("/api/node/get-config")
 async def node_get_config(request: Request, uuid: str):
